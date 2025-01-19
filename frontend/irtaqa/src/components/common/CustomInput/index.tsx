@@ -104,7 +104,7 @@ const CustomInput = ({
             },
           },
           "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "transparent",
+            borderColor: "#444",
           },
           "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: "#4DA1A9",

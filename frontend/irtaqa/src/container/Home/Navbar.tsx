@@ -18,7 +18,7 @@ import Link from "next/link";
 const navigationItems = [
   { label: "Home", path: "/" },
   { label: "Services", path: "#services" },
-  { label: "What we do", path: "#whatwedo" },
+  { label: "Our Mission", path: "#mission" },
   { label: "Contact Us", path: "#contact" },
 ];
 

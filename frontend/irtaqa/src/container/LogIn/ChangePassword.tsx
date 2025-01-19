@@ -8,46 +8,56 @@ import axios from "axios";
 import CustomButton from "@/src/components/common/CustomButton";
 import CustomInput from "@/src/components/common/CustomInput";
 
-interface LoginData {
-  phone: string;
-  password: string;
+interface PasswordData {
+  newPassword: string;
+  confirmPassword: string;
 }
 
-const Login = () => {
-  const [formData, setFormData] = useState<LoginData>({
-    phone: "",
-    password: "",
+const ChangePassword = () => {
+  const [formData, setFormData] = useState<PasswordData>({
+    newPassword: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setInfo(null);
+
+    // Basic validation for password match
+    if (formData.newPassword !== formData.confirmPassword) {
+      setError("New passwords do not match.");
+      return;
+    }
 
     try {
+      // Example: POST to your change password endpoint.
+      // Adjust as needed for your back-end logic.
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-        formData
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`,
+        {
+          newPassword: formData.newPassword,
+        }
       );
-      console.log("Login successful:", response.data);
 
-      // Store user data in localStorage
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      // On success
+      setInfo("Your password has been changed successfully.");
+      console.log("Password change successful:", response.data);
 
-      // Navigate to the dashboard
-      router.push("/dashboard");
+      // Optional: redirect the user somewhere
+      // router.push("/profile");
     } catch (error: any) {
       console.error(
-        "Login failed:",
+        "Change password request failed:",
         error.response?.data?.error || error.message
       );
       setError(error.response?.data?.error || "An unexpected error occurred.");
@@ -57,7 +67,6 @@ const Login = () => {
   return (
     <Box
       sx={{
-        // Subtle gradient background
         background: "linear-gradient(135deg, #eafaf1 0%, #ffffff 100%)",
         width: "100%",
         minHeight: "100vh",
@@ -68,15 +77,10 @@ const Login = () => {
         padding: "16px",
       }}
     >
-      {/* Logo / Title */}
-      <Typography
-        variant="h4"
-        sx={{ fontWeight: 600, color: "#006241", mb: 2 }}
-      >
+      <Typography variant="h4" sx={{ fontWeight: 600, color: "#006241", mb: 2 }}>
         IRTAQA LAB
       </Typography>
 
-      {/* Form Container */}
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -93,48 +97,51 @@ const Login = () => {
           p: { xs: 3, sm: 4 },
         }}
       >
-        {/* Header Section */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           <Typography variant="h5" sx={{ fontWeight: 600, color: "#006241" }}>
-            Login
+            Change Password
           </Typography>
           <Typography color="#4F4F4F" fontSize="14px">
-            Welcome! Good to see you back.
+            Enter and confirm your new password below.
           </Typography>
         </Box>
 
-        {/* Form Fields */}
+        {/* New Password Fields */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <CustomInput
-            label="Phone Number"
-            name="phone"
-            type="tel"
-            placeholder="03xxxxxxxxx"
-            value={formData.phone}
+            label="New Password"
+            name="newPassword"
+            type="password"
+            placeholder="Enter a new password"
+            value={formData.newPassword}
             onChange={handleChange}
           />
 
           <CustomInput
-            label="Password"
-            name="password"
+            label="Confirm New Password"
+            name="confirmPassword"
             type="password"
-            placeholder="Enter your password"
-            value={formData.password}
+            placeholder="Re-enter your new password"
+            value={formData.confirmPassword}
             onChange={handleChange}
           />
         </Box>
 
-        {/* Login Button */}
         <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
           <CustomButton variant="primary" type="submit">
-            Login
+            Update Password
           </CustomButton>
         </Box>
 
-        {/* Error message */}
+        {/* Error or success messages */}
         {error && (
           <Typography color="error" fontSize="14px">
             {error}
+          </Typography>
+        )}
+        {info && (
+          <Typography color="primary" fontSize="14px">
+            {info}
           </Typography>
         )}
       </Box>
@@ -142,4 +149,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ChangePassword;
