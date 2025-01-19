@@ -9,15 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.0",
+    "@mui/material": "^6.4.0",
+    "axios": "^1.7.9",
     "next": "15.1.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-countup": "^6.5.3",
+    "react-dom": "^19.0.0",
+    "react-swipeable": "^7.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
-    "@types/react": "^19",
+    "@types/react": "^19.0.7",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
