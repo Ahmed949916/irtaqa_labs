@@ -10,6 +10,8 @@ interface InputProps extends Omit<TextFieldProps, "label"> {
   fullWidth?: boolean;
   bgColor?: string;
   textColor?: string;
+  inputVal?: string;
+  onInputChange?: (value: string) => void;
 }
 
 const CustomInput = ({
@@ -21,10 +23,12 @@ const CustomInput = ({
   bgColor,
   textColor,
   helperText,
+  inputVal,
+  onInputChange,
   ...props
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [phoneValue, setPhoneValue] = useState("");
+  const [phoneValue, setPhoneValue] = useState(inputVal || "");
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,6 +38,7 @@ const CustomInput = ({
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedValue = e.target.value.replace(/[^0-9]/g, "");
     setPhoneValue(formattedValue);
+    onInputChange?.(formattedValue);
   };
 
   const passwordProps =

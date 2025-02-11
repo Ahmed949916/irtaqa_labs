@@ -38,19 +38,31 @@ const CustomButton = ({
         bgcolor: '#006241',
         color: 'white',
         border: 'none',
+        "&:hover":{
+          bgcolor:"rgb(1, 129, 86)"
+        }
       
       },
       secondary: {
         bgcolor: '#121212',
         color: 'white',
-        border: '2px solid #4DA1A9',
+        "&:hover":{
+          bgcolor:"#333"
+        }
+        // border: '2px solidrgb(1, 129, 86)',
       },
       tertiary: {
-        bgcolor: '#fff',
-        color: 'black',
-        border:"none"
-      
+       
+       
+        color: "black",
+        border: "none",
+        "&:hover": {
+          bgcolor: "#f0f0f0", 
+    
+
+        },
       },
+      
     };
 
     return {
