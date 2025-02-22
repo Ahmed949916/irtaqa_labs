@@ -8,6 +8,7 @@ interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   endIcon?: ReactNode;
   fontWeight?: string;
   padding?: string;
+  isLoading?:boolean;
 }
 
 const CustomButton = ({ 
@@ -18,6 +19,7 @@ const CustomButton = ({
   fontWeight="500",
   padding="8px 24px",
   fullWidth,
+  isLoading=false,
   ...props 
 }: ButtonProps) => {
   const getStyles = () => {
@@ -73,6 +75,7 @@ const CustomButton = ({
 
   return (
     <MuiButton
+      loading={isLoading}
       {...props}
       variant={variant === 'primary' ? 'contained' : 'outlined'}
       sx={{
