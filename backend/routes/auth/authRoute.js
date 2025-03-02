@@ -3,7 +3,6 @@ const router = express.Router();
 const { db } = require("../../firebaseConfig");
 const bcrypt = require("bcrypt");
 
-// User login with phone number and password
 router.post("/login", async (req, res) => {
   const { phoneNumber, password } = req.body;
 
@@ -21,22 +20,25 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Login successful, please change your password." });
+    if (!userData.isOccupiedByUser) {
+      return res.status(200).json({
+        message: "Login successful, please change your password.",
+        requirePasswordChange: true
+      });
+    }
+
+    res.status(200).json({ message: "Login successful" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// User changes password
 router.post("/change-password", async (req, res) => {
   const { phoneNumber, newPassword } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update password and mark as occupied
     await db.collection("users").doc(phoneNumber).update({
       password: hashedPassword,
       isOccupiedByUser: true,
